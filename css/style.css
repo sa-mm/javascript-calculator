@@ -1,0 +1,29 @@
+.no-gutter > [class*='col-'] {
+    padding-right:0;
+    padding-left:0;
+}
+
+.first {
+  height: 34px;
+}
+
+.last {
+  height: 68px;
+}
+
+#calcButtons {
+  height: 270px;
+}
+
+#totalDiv{
+  height: 270px;
+}
+
+#current.p{
+  align: right;
+}
+
+body {
+  margin-top: 60px;
+  background: grey;
+}
