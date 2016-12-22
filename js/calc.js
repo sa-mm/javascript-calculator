@@ -1,34 +1,43 @@
+'use strict';
+
 (function () {
   
 //   Model
-  var numString = "";
-  var oldNumString = "";
+  var oldArg = "";
+  var newArg = "";
   var total = 0;
-  var buttonLog = [];
-  var clearOrAllClear = false;
+  var buttonList = [];
+  var allClear = false;
   
   function updateNumString (str) {
-    numString += str;
-    console.log("numString is now: " + numString);
+    oldArg += str;
+    console.log("oldArg is now: " + oldArg);
   }
 
   function getResult() {
-    var lastItem = buttonLog[buttonLog.length - 1];
-    console.log("begin of getResult() oldNumString and numString: " + oldNumString + " & " + numString );
+    var lastItem = buttonList[buttonList.length - 1];
+    console.log("begin of getResult() newArg and oldArg: " + newArg + " & " + oldArg );
     switch (lastItem) {
       case 'plusKey':
-        total = (Number(oldNumString) + Number(numString)).toString();
+        total = (Number(newArg) + Number(oldArg)).toString();
         break;
       case 'minusKey':
-        total = (Number(oldNumString) - Number(numString)).toString();
+        total = (Number(newArg) - Number(oldArg)).toString();
         break;
       case 'dividesKey':
-        total = (Number(oldNumString) / Number(numString)).toString();
+        total = (Number(newArg) / Number(oldArg)).toString();
         break;
       case 'timesKey':
-        total = (Number(oldNumString) * Number(numString)).toString();
+        total = (Number(newArg) * Number(oldArg)).toString();
         break;
     }
+  }
+  
+  var operatorObj = {
+    "plusKey": " + ",
+    "minusKey": " - ",
+    "dividesKey": " / ",
+    "timesKey": " * ",
   }
 
 // Controller
@@ -49,87 +58,86 @@
   var theParent = document.querySelector("#calcButtons");
   for (var i = 0; i < theParent.children.length; i++) {
       var childElement = theParent.children[i];
-      childElement.addEventListener('click', doSomething, false);
+      childElement.addEventListener('click', calculate, false);
   }
 
-  function doSomething(e) {
+  function calculate(e) {
       var clickedItem = e.target.id;
-      var lastItem = buttonLog[buttonLog.length -1 ];
+      var lastItem = buttonList[buttonList.length -1 ];
       var operators = ["plusKey","minusKey","dividesKey","timesKey"];
     switch (clickedItem) {
       case "plusKey":
       case "minusKey":
       case "dividesKey":
       case "timesKey":
-        buttonLog.push(clickedItem);
-        lastItem = buttonLog[buttonLog.length - 1]
-        console.log("buttonLog: " + buttonLog);
-        if (operators.includes(buttonLog[buttonLog.length - 2 ])) {
+        buttonList.push(clickedItem);
+        lastItem = buttonList[buttonList.length - 1]
+        console.log("buttonList: " + buttonList);
+        if (operators.includes(buttonList[buttonList.length - 2 ])) {
           getResult();
-          oldNumString = total;
-          numString = "";
+          newArg = total;
+          oldArg = "";
           document.getElementById("current").innerHTML = total;
         } else {
-          oldNumString = numString;
-          numString = "";
-              document.getElementById("equation").innerHTML = oldNumString + lastItem + numString;
+          newArg = oldArg;
+          oldArg = "";
+              document.getElementById("equation").innerHTML = newArg + operatorObj[lastItem] + oldArg;
         }
         console.log(clickedItem + " clicked");
-        // buttonLog.push(clickedItem);
+        // buttonList.push(clickedItem);
         break;
       case "clearKey":
-        if (clearOrAllClear == true) {
+        if (allClear == true) {
           total = 0;
-          oldNumString = "";
-          buttonLog = [];
+          newArg = "";
+          buttonList = [];
         } else {
-          clearOrAllClear = true;
+          allClear = true;
           document.getElementById("clearKey").innerHTML = "AC";
         }
-        numString = "";
+        oldArg = "";
         document.getElementById("current").innerHTML = "&nbsp;";
         break;
       case "negKey":
-        console.log(typeof numString);
-        if (numString.includes('-') == true) {
-          numString = numString.replace(/^\-/,'');
+        console.log(typeof oldArg);
+        if (oldArg.includes('-') == true) {
+          oldArg = oldArg.replace(/^\-/,'');
         } else {
-          numString = "-" + numString;
+          oldArg = "-" + oldArg;
         }
-        document.getElementById("current").innerHTML = numString;
-        clearOrAllClear = false;
+        document.getElementById("current").innerHTML = oldArg;
+        document.getElementById("equation").innerHTML = newArg + (operatorObj[lastItem] || " ") + oldArg;
+        allClear = false;
         document.getElementById("clearKey").innerHTML = "C";
-        // buttonLog.push(clickedItem);
+        // buttonList.push(clickedItem);
         break;
       case "enterKey":
       case "equalsKey":
+        if (lastItem == "equalsKey" || lastItem == "enterKey") {
+        // oldArg = '';
+        }
         getResult();
-        oldNumString = total;
-        numString = total;
-        buttonLog.push(clickedItem);
+        newArg = total;
+        // newArg = ''
+        oldArg = total;
+        buttonList.push(clickedItem);
         console.log("total is now: " + total);
-        console.log("buttonLog: " + buttonLog);
+        console.log("buttonList: " + buttonList);
         document.getElementById("current").innerHTML = total;
         break;
       default:
         if (lastItem == "equalsKey" || lastItem == "enterKey") {
-        numString = '';
+        oldArg = '';
         }
-        clearOrAllClear = false;
+        allClear = false;
         document.getElementById("clearKey").innerHTML = "C";
         console.log("lastItem: " + lastItem);
         updateNumString(keyPad[clickedItem]);
-        document.getElementById("current").innerHTML = numString;
-        document.getElementById("equation").innerHTML = oldNumString + lastItem + numString;
+        document.getElementById("current").innerHTML = oldArg;
+        document.getElementById("equation").innerHTML = newArg + (operatorObj[lastItem] || " ") + oldArg;
     }
     document.getElementById("result").innerHTML = total;
-    // document.getElementById("equation").innerHTML = oldNumString + lastItem + numString;
   }
-  
-  // function updateEquation(oldNumString,operator,numString) {
-  //
-  //   document.getElementById("equation").innerHTML = oldNumString + operator + numString;
-  // }
 })();
 
 // Adding keyboard support, sort of
