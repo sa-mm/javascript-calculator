@@ -1,0 +1,72 @@
+.parent {
+  display: flex;
+  height: 300px; /* Or whatever */
+}
+
+.child {
+  width: 300px;  /* Or whatever */
+  height: 100px; /* Or whatever */
+  margin: auto;  /* Magic! */
+}
+
+.row {
+ flex-wrap: nowrap; 
+}
+
+.btn {
+	background-color:#e9ebe2;
+	border:1px solid #566963;
+	cursor:pointer;
+	color:#000000;
+	font-family:monospace;
+	font-size:24px;
+  height: 75px;
+  width: 75px;
+  text-align: center;
+}
+
+.btnX2 {
+  text-align: left;
+  padding-left: 27px;
+  width: 150px !important;
+}
+
+.btnOperator {
+  background-color: orange;
+  color: white;
+}
+.btn:hover {
+	background-color:#6c7c7c;
+}
+.btn:active {
+	position:relative;
+	top:1px;
+}
+
+.result {
+	font-family:monospace;
+	font-size:32px;
+  color: white;
+  background-color: black;
+  height: 75px;
+  width: 300px;
+}
+
+#calcButtons {
+/*  height: 270px;*/
+}
+
+#total{
+/*  height: 270px;*/
+}
+
+#current{
+  text-align: right;
+/*  margin: 0px;*/
+  padding: 15px;
+  
+}
+
+body {
+  background: grey;
+}
