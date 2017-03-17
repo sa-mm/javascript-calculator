@@ -1,0 +1,27 @@
+{
+  "name": "javascript-calculator",
+  "version": "1.0.0",
+  "description": "Javascript Calculator",
+  "main": "index.js",
+  "scripts": {
+    "test": "tape-watch 'tests/*.js' -o '| tap-spec --color'",
+    "start": "webpack-dev-server",
+    "build": "webpack -p"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/samm/javascript-calculator.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/samm/javascript-calculator/issues"
+  },
+  "homepage": "https://gitlab.com/samm/javascript-calculator#README",
+  "devDependencies": {
+    "tap-spec": "^4.1.1",
+    "tape": "^4.6.3",
+    "tape-watch": "^2.2.4",
+    "webpack": "^2.2.1"
+  }
+}
