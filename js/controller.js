@@ -6,22 +6,13 @@ var calculator = require('../js/calculator.js');
 var controller = function () {
   var calcModel = model();
 
-<<<<<<< HEAD
-  var numbers = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'zero', 'decimal', 'neg'];
-=======
   var numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '.', 'neg']
->>>>>>> short-test
   var operators = ['add', 'subtract', 'multiply', 'divide'];
 
   function keyClicked(key) {
     if (numbers.includes(key)) {
       calcModel.updateNumString(key)
     } else if (operators.includes(key)) {
-<<<<<<< HEAD
-      calcModel.insertOperator(key)
-      calcModel.setTotal(calcModel.getNumString())
-      calcModel.resetNumString()
-=======
       if (calcModel.lastKeyClicked === 'equals') {
         var totalStr = calcModel.getTotal().toString()
         calcModel.updateNumString(totalStr)
@@ -68,7 +59,6 @@ var controller = function () {
         calcModel.resetNumString();
         calcModel.setAllClear();
       }
->>>>>>> short-test
     } else if (key === 'equals') {
       var total = calculate()
       calcModel.setTotal(total)
