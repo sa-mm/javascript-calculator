@@ -7,14 +7,14 @@ var calculator = require('../js/calculator.js');
 var controller = function () {
   var calcModel = model();
 
-  var numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '.', 'neg'];
-  var operators = ['+', '-', '*', '/'];
+  var numbers = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'zero', 'decimal', 'neg'];
+  var operators = ['add', 'subtract', 'multiple', 'divide'];
 
   function keyClicked(key) {
     if (numbers.includes(key)) {
       calcModel.updateNumString(key);
     } else if (operators.includes(key)) {
-      if (calcModel.lastKeyClicked === '=') {
+      if (calcModel.lastKeyClicked === 'equals') {
         var totalStr = calcModel.getTotal().toString()
         calcModel.updateNumString(totalStr);
       }
@@ -50,7 +50,7 @@ var controller = function () {
         calcModel.setTotal(+result);
         calcModel.output[last] = result.toString();
       }
-    } else if (key === 'c') {
+    } else if (key === 'clear') {
       if (calcModel.getAllClear()) {
         calcModel.setTotal(0);
         calcModel.resetNumString();
@@ -60,7 +60,7 @@ var controller = function () {
         calcModel.resetNumString();
         calcModel.setAllClear();
       }
-    } else if (key === '=') {
+    } else if (key === 'equals') {
       calcModel.output.push(calcModel.getNumString());
       calcModel.resetNumString();
       var result = getResult(calcModel.output);
@@ -82,10 +82,10 @@ var controller = function () {
   function calculate(x, y) {
     var operator = calcModel.lastOperator();
     var operatorKeyToFunction = {
-      '+': calculator.add(x, y),
-      '-': calculator.subtract(x, y),
-      '*': calculator.multiply(x, y),
-      '/': calculator.divide(x, y),
+      'add': calculator.add(x, y),
+      'subtract': calculator.subtract(x, y),
+      'multiply': calculator.multiply(x, y),
+      'divide': calculator.divide(x, y),
       '%': calculator.percent(x),
     }
     return operatorKeyToFunction[operator];
