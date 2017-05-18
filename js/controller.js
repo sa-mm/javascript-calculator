@@ -2,13 +2,12 @@
 
 var model = require('../js/model.js');
 var calculator = require('../js/calculator.js');
-// var view = require('../js/view.js');
 
 var controller = function () {
   var calcModel = model();
 
-  var numbers = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'zero', 'decimal', 'neg'];
-  var operators = ['add', 'subtract', 'multiple', 'divide'];
+  var numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '.', 'neg']
+  var operators = ['add', 'subtract', 'multiply', 'divide'];
 
   function keyClicked(key) {
     if (numbers.includes(key)) {
@@ -16,7 +15,7 @@ var controller = function () {
     } else if (operators.includes(key)) {
       if (calcModel.lastKeyClicked === 'equals') {
         var totalStr = calcModel.getTotal().toString()
-        calcModel.updateNumString(totalStr);
+        calcModel.updateNumString(totalStr)
       }
 
       if (calcModel.operatorCount() > 0) {
@@ -109,9 +108,33 @@ if (typeof document !== 'undefined') {
     childElement.addEventListener('click', buttonPress, false);
   }
 
+  // accomodating a change to id's for fcc's tests
+  var strToStr = {
+    'one': '1',
+    'two': '2',
+    'three': '3',
+    'four': '4',
+    'five': '5',
+    'six': '6',
+    'seven': '7',
+    'eight': '8',
+    'nine': '9',
+    'zero': '0',
+    'decimal': '.',
+    'clear': 'clear',
+    'add': 'add',
+    'subtract': 'subtract',
+    'divide': 'divide',
+    'multiply': 'multiply',
+    'equals': 'equals',
+    'neg': 'neg',
+    '%': '%'
+  }
+
   function buttonPress(event) {
     var clickedButton = event.target.id;
     console.log(clickedButton);
-    c.keyClicked(clickedButton.toString());
+    var key = strToStr[clickedButton.toString()]
+    c.keyClicked(key);
   }
 }
