@@ -11,7 +11,7 @@ var controller = function () {
 
   function keyClicked(key) {
     if (numbers.includes(key)) {
-      calcModel.updateNumString(key)
+      calcModel.updateNumString(key);
     } else if (operators.includes(key)) {
       if (calcModel.lastKeyClicked === 'equals') {
         var totalStr = calcModel.getTotal().toString()
@@ -60,33 +60,40 @@ var controller = function () {
         calcModel.setAllClear();
       }
     } else if (key === 'equals') {
-      var total = calculate()
-      calcModel.setTotal(total)
-      calcModel.resetNumString()
+      calcModel.output.push(calcModel.getNumString());
+      calcModel.resetNumString();
+      var result = getResult(calcModel.output);
+      calcModel.setTotal(+result);
+      calcModel.resetOperatorList();
+      calcModel.output = [];
     }
+    calcModel.lastKeyClicked = key;
   }
 
-  function calculate() {
-    var operator = calcModel.lastOperator()
-    var a = calcModel.getTotal()
-    var b = +calcModel.getNumString()
+  function getResult(arr) {
+    return arr.filter(function (str) {
+      return str !== '';
+    }).reduce(function (pVal, cVal) {
+      return calculate(+pVal, +cVal);
+    });
+  }
 
-    switch (operator) {
-      case 'add':
-        return calculator.add(a, b)
-      case 'subtract':
-        return calculator.subtract(a, b)
-      case 'divide':
-        return calculator.divide(a, b)
-      case 'multiply':
-        return calculator.multiply(a, b)
+  function calculate(x, y) {
+    var operator = calcModel.lastOperator();
+    var operatorKeyToFunction = {
+      'add': calculator.add(x, y),
+      'subtract': calculator.subtract(x, y),
+      'multiply': calculator.multiply(x, y),
+      'divide': calculator.divide(x, y),
+      '%': calculator.percent(x),
     }
+    return operatorKeyToFunction[operator];
   }
 
   return {
     keyClicked: keyClicked,
     calcModel: calcModel,
-    calculate: calculate
+    calculate: calculate,
   }
 }
 
